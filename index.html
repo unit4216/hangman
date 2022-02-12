@@ -55,11 +55,23 @@
     </body>
 
     <script>
-        //splash screen "enter" function, fades out splash screen and fades in app
-        $('#start').click(function() { 
-            $(this).parent().fadeOut(500);
-            $('#hangApp').fadeIn(500);
-        });
+
+        
+        
+        if(localStorage.getItem('firstVisit')==null){
+            //splash screen "enter" function, fades out splash screen and fades in app and allows keypress event listener to function
+            $('#start').click(function() { 
+                localStorage.setItem('ready', true);    //enable keypress input
+                $(this).parent().fadeOut(500);
+                $('#hangApp').fadeIn(500);
+                //splash screen only shows up on first session
+                localStorage.setItem('firstVisit', false);
+            });
+        } else {
+            //set splash screen to hidden and app to visible
+            document.getElementById('splash').style.display = 'none';
+            document.getElementById('hangApp').style.display = 'block';
+        }
     </script>
 
     <script type='text/babel'>
@@ -177,9 +189,12 @@
             //have to useEffect so that I can setup and remove each keypress listener on each render (so that they don't multiply)
             React.useEffect(() => {
 
-
+                
                 //listen for key presses
                 $('html').keypress(function(e) {
+
+                    //checks if splash screen has been clicked through
+                    if(localStorage.getItem('ready', true)){
 
                     //if input is a valid letter, setCurrentLetter to it
                     if(alphabet.includes(String.fromCharCode(e.keyCode))){
@@ -280,9 +295,11 @@
                             
                         }
                     }
+                    }
                     
 
                 });
+                
 
             return () => { $('html').unbind() } //unbind keypress listener after each use so that you're not spawning a million listeners
 
