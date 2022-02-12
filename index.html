@@ -134,8 +134,17 @@
             const [currentLetter, setCurrentLetter] = React.useState('');
             const [lettersGuessed, setLettersGuessed] = React.useState([]);
             const [errorCount, setErrorCount] = React.useState(1);
-            const [score, setScore] = React.useState([0,0]);
+            const [score, setScore] = React.useState([localStorage.getItem('wins'),localStorage.getItem('losses')]);
 
+            //if new session, set score from [null,null] to [0,0]
+            if(score[0]==null | score[1]==null){
+                if(score[0]==null){
+                    setScore(['0',score[1]])
+                }
+                if(score[1]==null){
+                    setScore([score[0],'0'])
+                }
+            }
 
             //get word from backend
             function getWord(){
@@ -181,9 +190,11 @@
                     ctx.clearRect(245, 145, 110, 190); //x start, y start, rect width, rect height
                     setErrorCount(1);
                     setLettersGuessed([]);
-                    setScore([score[0]+1,score[1]]); //update score (add 1 win)
+                    localStorage.setItem('wins',parseInt(score[0])+1) //update localStorage
+                    setScore([parseInt(score[0])+1,score[1]]); //update score (add 1 win)
                 }
             },[wordDisplay]);            //function only runs when wordDisplay state is updated.
+
 
           
             //have to useEffect so that I can setup and remove each keypress listener on each render (so that they don't multiply)
@@ -287,7 +298,8 @@
                                 ctx.clearRect(245, 145, 110, 190); //x start, y start, rect width, rect height
                                 setErrorCount(1);
                                 setLettersGuessed([]);
-                                setScore([score[0],score[1]+1]); //update score (add 1 loss)
+                                localStorage.setItem('losses',parseInt(score[1])+1) //update localStorage
+                                setScore([score[0],parseInt(score[1])+1]); //update score (add 1 loss)
                                 setCurrentLetter('');
                                 alertify.alert('YOU LOSE', 'The correct word was ' + word).setting({transition:'fade'});
 
