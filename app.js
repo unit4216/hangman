@@ -4,8 +4,8 @@ var app = express();
 var fs = require('fs');
 var csv = require('csv-parse'); 
 
-var us = require('underscore'); //remove
-var fast = require('fast-csv'); //remove
+//declare static folder
+app.use(express.static('static')); 
 
 //assign html from index.html to variable
 var index = fs.readFileSync('index.html');
@@ -15,10 +15,8 @@ word_db=[]
 fs.readFile('words.csv', function (err, fileData) {
     csv.parse(fileData, {columns: true, trim: true}, function(err, rows) {
         word_db.push(rows); //push csv data to word_db array
-        //console.log(word_db);
     })
 })
-
 
 /////////////////
 //// ROUTING ////

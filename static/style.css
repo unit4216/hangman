@@ -1,0 +1,29 @@
+h1 {
+    font-size: 60px !important;
+}
+
+#start {
+    border-radius: 0px;
+    border: 3px solid black;
+    font-size: 20px;
+}
+
+#splash {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#hangApp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display:none;
+}
+
+#appContainer {
+    margin-top: '50px' !important;
+}
