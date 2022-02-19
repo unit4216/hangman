@@ -22,8 +22,8 @@ fs.readFile('words.csv', function (err, fileData) {
 //// ROUTING ////
 /////////////////
 
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+app.listen(4000, () => {
+    console.log('Server running on port 4000');
 });
 
 app.get('/', (req, res, next) => {
